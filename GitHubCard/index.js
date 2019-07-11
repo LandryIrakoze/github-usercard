@@ -80,13 +80,14 @@ const userCard = (data) => {
   userName.classList.add('username');
 
   //FIX FOLLOWING AND FOLLOWERS COUNT
-  img.src = '';
-  profileLink.href = '';
+  img.src = `${data.avatar_url}`;
+  profileLink.href = `https://github.com/${data.login}`;
 
   name.textContent = `${data.login}`;
   userName.textContent = `${data.login}`;
   location.textContent = `${data.location}`;
-  profile.textContent = 'Profile';
+  profile.textContent = 'Profile:';
+  profileLink.textContent = `https://github.com/${data.login}`;
   followers.textContent = `Followers: ${data.followers_url}`;
   following.textContent = `Following: ${data.following_url}`;
   bio.textContent = `${data.bio}`;
