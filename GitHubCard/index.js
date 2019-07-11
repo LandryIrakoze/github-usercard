@@ -27,7 +27,6 @@
     <p>Bio: {users bio}</p>
   </div>
 </div>
-
 */
 
 /* Step 4: Pass the data received from Github into your function, 
@@ -50,7 +49,6 @@
 //FETCH USER INFO + CREATE CARD
 axios.get('https://api.github.com/users/LandryIrakoze')
   .then(data => {
-    console.log('data', data)
     const userInfo = data.data;
     const element = userCard(userInfo);
     cards.appendChild(element);
@@ -59,23 +57,48 @@ axios.get('https://api.github.com/users/LandryIrakoze')
     console.log('Woops something is broken on our end, try again later', error)
   })
 
-
-//FETCH FOLLOWER INFO + CREATE CARDS
 axios.get('https://api.github.com/users/LandryIrakoze/followers')
   .then(data => {
-    const followers = data.data;
-    followers.forEach(user => {
-      cards.appendChild(userCard(user));  
-    })
+    const followerData = data.data;
+    const followerArray = followerData.map(user => user.login);
+    console.log(followerArray);
   })
   .catch(error => {
     console.log('Woops something is broken on our end, try again later', error)
   })
+//FOR EACH FOLLOWER, FOLLOW ID, TO GET TO GITHUB USER PAGE TO GET EXTRA DATA
+//MAYBE ADD IT TO AN ARRAY AT FIRST???
+//FETCH FOLLOWER INFO + CREATE CARDS
+// axios.get('https://api.github.com/users/LandryIrakoze/followers')
+//   .then(data => {
+//     const followers = data.data;
+//     followers.forEach(user => {
+//       cards.appendChild(userCard(user));  
+//     })
+//   })
+//   .catch(error => {
+//     console.log('Woops something is broken on our end, try again later', error)
+//   })
 
-const followersArray = [];
+// const followersArray = [];
+
+// axios.get('https://api.github.com/users/LandryIrakoze/followers')
+//   .then(data => {
+//     const followers = data.data;
+//     followers.forEach(user => {
+//       // const followerData = 
+//       console.log(user.login);
+//       const followerData = `https://api.github.com/users/${user.login}`;
+//     })
+//   })
+//   .catch(error => {
+//     console.log('Woops something is broken on our end, try again later', error)
+//   })
+
+// const followersArray = [];
 
 
-/*  FIX THIS LATER  */
+/*  ADD CALENDAR  */
 
 // CREATE CARD FUNCTION 
 const userCard = (data) => {
@@ -96,7 +119,6 @@ const userCard = (data) => {
   name.classList.add('name');
   userName.classList.add('username');
 
-  //FIX FOLLOWING AND FOLLOWERS COUNT
   img.src = `${data.avatar_url}`;
   profileLink.href = `https://github.com/${data.login}`;
 
@@ -113,17 +135,19 @@ const userCard = (data) => {
   card.appendChild(cardInfo);
   cardInfo.appendChild(name);
   cardInfo.appendChild(userName);
-  cardInfo.appendChild(location);
   cardInfo.appendChild(profile);
   cardInfo.appendChild(profileLink);
   cardInfo.appendChild(followers);
   cardInfo.appendChild(following);
+  profile.appendChild(profileLink);
 
   if(data.bio !== null) {
     cardInfo.appendChild(bio);
   }
-  
-  profile.appendChild(profileLink);
+
+  if(data.location !== null) {
+    cardInfo.appendChild(location);
+  }
 
   console.log(card);
   return card;
