@@ -45,7 +45,6 @@
 
 
 /*   REFACTOR THIS USING CHAINED PROMISES  */
-
 //FETCH USER INFO + CREATE CARD
 axios.get('https://api.github.com/users/LandryIrakoze')
   .then(data => {
@@ -61,45 +60,24 @@ axios.get('https://api.github.com/users/LandryIrakoze/followers')
   .then(data => {
     const followerData = data.data;
     const followerArray = followerData.map(user => user.login);
-    console.log(followerArray);
+
+    followerArray.forEach(user => {
+      axios.get(`https://api.github.com/users/${user}`)
+        .then(data => {
+          const userInfo = data.data;
+          const element = userCard(userInfo);
+          cards.appendChild(element);
+        })
+        .catch(error => {
+          console.log('Woops something is broken on our end, try again later', error)
+        })
+    })
   })
   .catch(error => {
     console.log('Woops something is broken on our end, try again later', error)
   })
-//FOR EACH FOLLOWER, FOLLOW ID, TO GET TO GITHUB USER PAGE TO GET EXTRA DATA
-//MAYBE ADD IT TO AN ARRAY AT FIRST???
-//FETCH FOLLOWER INFO + CREATE CARDS
-// axios.get('https://api.github.com/users/LandryIrakoze/followers')
-//   .then(data => {
-//     const followers = data.data;
-//     followers.forEach(user => {
-//       cards.appendChild(userCard(user));  
-//     })
-//   })
-//   .catch(error => {
-//     console.log('Woops something is broken on our end, try again later', error)
-//   })
-
-// const followersArray = [];
-
-// axios.get('https://api.github.com/users/LandryIrakoze/followers')
-//   .then(data => {
-//     const followers = data.data;
-//     followers.forEach(user => {
-//       // const followerData = 
-//       console.log(user.login);
-//       const followerData = `https://api.github.com/users/${user.login}`;
-//     })
-//   })
-//   .catch(error => {
-//     console.log('Woops something is broken on our end, try again later', error)
-//   })
-
-// const followersArray = [];
-
 
 /*  ADD CALENDAR  */
-
 // CREATE CARD FUNCTION 
 const userCard = (data) => {
   const card = document.createElement('div');
