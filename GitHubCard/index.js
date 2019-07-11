@@ -7,12 +7,8 @@ axios.get('https://api.github.com/users/LandryIrakoze')
   .then(data => {
     console.log('data', data)
     const userInfo = data.data;
-    console.log(userInfo);
-
     const element = userCard(userInfo);
-
     cards.appendChild(element);
-    
   })
   .catch(error => {
     console.log('Woops something is broken on our end, try again later', error)
@@ -38,6 +34,17 @@ axios.get('https://api.github.com/users/LandryIrakoze')
           Using that array, iterate over it, requesting data for each user, creating a new card for each
           user, and adding that card to the DOM.
 */
+axios.get('https://api.github.com/users/LandryIrakoze/followers')
+  .then(data => {
+    
+    const followers = data.data;
+    followers.forEach(user => {
+      cards.appendChild(userCard(user));  
+    })
+  })
+  .catch(error => {
+    console.log('Woops something is broken on our end, try again later', error)
+  })
 
 const followersArray = [];
 
@@ -108,7 +115,6 @@ const userCard = (data) => {
   console.log(card);
   return card;
 }
-
 const cards = document.querySelector('.cards');
 
 
