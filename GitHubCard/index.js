@@ -45,7 +45,7 @@
 */
 
 
-
+/*   REFACTOR THIS USING CHAINED PROMISES  */
 
 //FETCH USER INFO + CREATE CARD
 axios.get('https://api.github.com/users/LandryIrakoze')
@@ -75,6 +75,8 @@ axios.get('https://api.github.com/users/LandryIrakoze/followers')
 const followersArray = [];
 
 
+/*  FIX THIS LATER  */
+
 // CREATE CARD FUNCTION 
 const userCard = (data) => {
   const card = document.createElement('div');
@@ -103,8 +105,8 @@ const userCard = (data) => {
   location.textContent = `${data.location}`;
   profile.textContent = 'Profile:';
   profileLink.textContent = `https://github.com/${data.login}`;
-  followers.textContent = `Followers: ${data.followers_url}`;
-  following.textContent = `Following: ${data.following_url}`;
+  followers.textContent = `Followers: ${data.followers}`;
+  following.textContent = `Following: ${data.following}`;
   bio.textContent = `${data.bio}`;
 
   card.appendChild(img);
