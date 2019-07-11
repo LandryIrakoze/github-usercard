@@ -128,7 +128,6 @@ const userCard = (data) => {
     cardInfo.appendChild(location);
   }
 
-  console.log(card);
   return card;
 }
 const cards = document.querySelector('.cards');
