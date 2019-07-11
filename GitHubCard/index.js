@@ -2,10 +2,22 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
+
 axios.get('https://api.github.com/users/LandryIrakoze')
   .then(data => {
     console.log('data', data)
-  });
+    const userInfo = data.data;
+    console.log(userInfo);
+
+    const element = userCard(userInfo);
+
+    cards.appendChild(element);
+    
+  })
+  .catch(error => {
+    console.log('Woops something is broken on our end, try again later', error)
+  })
+
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
    data in order to use it to build your component function 
@@ -49,7 +61,7 @@ const followersArray = [];
 
 */
 
-const userCard = () => {
+const userCard = (data) => {
   const card = document.createElement('div');
   const img = document.createElement('img');
   const cardInfo = document.createElement('div');
@@ -67,33 +79,38 @@ const userCard = () => {
   name.classList.add('name');
   userName.classList.add('username');
 
-  //FILL IN LATER
+  //FIX FOLLOWING AND FOLLOWERS COUNT
   img.src = '';
   profileLink.href = '';
 
-  name.textContent = `${}`;
-  userName.textContent = `${}`;
-  location.textContent = `${}`;
+  name.textContent = `${data.login}`;
+  userName.textContent = `${data.login}`;
+  location.textContent = `${data.location}`;
   profile.textContent = 'Profile';
-  followers.textContent = `${}`;
-  following.textContent = `${}`;
-  bio.textContent = `${}`;
+  followers.textContent = `Followers: ${data.followers_url}`;
+  following.textContent = `Following: ${data.following_url}`;
+  bio.textContent = `${data.bio}`;
 
   card.appendChild(img);
   card.appendChild(cardInfo);
-  card.appendChild(name);
-  card.appendChild(userName);
-  card.appendChild(location);
-  card.appendChild(profile);
-  card.appendChild(profileLink);
-  card.appendChild(followers);
-  card.appendChild(following);
-  card.appendChild(bio);
+  cardInfo.appendChild(name);
+  cardInfo.appendChild(userName);
+  cardInfo.appendChild(location);
+  cardInfo.appendChild(profile);
+  cardInfo.appendChild(profileLink);
+  cardInfo.appendChild(followers);
+  cardInfo.appendChild(following);
+  cardInfo.appendChild(bio);
 
   profile.appendChild(profileLink);
 
+  console.log(card);
   return card;
 }
+
+const cards = document.querySelector('.cards');
+
+
 
 /* List of LS Instructors Github username's: 
   tetondan
