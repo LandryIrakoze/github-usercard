@@ -118,8 +118,11 @@ const userCard = (data) => {
   cardInfo.appendChild(profileLink);
   cardInfo.appendChild(followers);
   cardInfo.appendChild(following);
-  cardInfo.appendChild(bio);
 
+  if(data.bio !== null) {
+    cardInfo.appendChild(bio);
+  }
+  
   profile.appendChild(profileLink);
 
   console.log(card);
