@@ -92,11 +92,13 @@ const userCard = (data) => {
   const followers = document.createElement('p');
   const following = document.createElement('p');
   const bio = document.createElement('p');
+  const calendar = document.createElement('div');
 
   card.classList.add('card');
   cardInfo.classList.add('card-info');
   name.classList.add('name');
   userName.classList.add('username');
+  calendar.classList.add('calendar');
 
   img.src = `${data.avatar_url}`;
   profileLink.href = `https://github.com/${data.login}`;
@@ -119,6 +121,7 @@ const userCard = (data) => {
   cardInfo.appendChild(followers);
   cardInfo.appendChild(following);
   profile.appendChild(profileLink);
+  // card.appendChild(calendar);
 
   if(data.bio !== null) {
     cardInfo.appendChild(bio);
@@ -127,6 +130,8 @@ const userCard = (data) => {
   if(data.location !== null) {
     cardInfo.appendChild(location);
   }
+
+  // new GitHubCalendar('.calendar', data.login);
 
   return card;
 }
