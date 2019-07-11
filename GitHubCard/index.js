@@ -82,6 +82,7 @@ axios.get('https://api.github.com/users/LandryIrakoze/followers')
 // CREATE CARD FUNCTION 
 const userCard = (data) => {
   const card = document.createElement('div');
+  // const profileContainer = document.createElement('div'); //testing
   const img = document.createElement('img');
   const cardInfo = document.createElement('div');
   const name = document.createElement('h3');
@@ -92,13 +93,13 @@ const userCard = (data) => {
   const followers = document.createElement('p');
   const following = document.createElement('p');
   const bio = document.createElement('p');
-  const calendar = document.createElement('div');
+  // const calendar = document.createElement('div'); //testing
 
   card.classList.add('card');
   cardInfo.classList.add('card-info');
   name.classList.add('name');
   userName.classList.add('username');
-  calendar.classList.add('calendar');
+  // calendar.classList.add('calendar'); //testing
 
   img.src = `${data.avatar_url}`;
   profileLink.href = `https://github.com/${data.login}`;
@@ -121,7 +122,7 @@ const userCard = (data) => {
   cardInfo.appendChild(followers);
   cardInfo.appendChild(following);
   profile.appendChild(profileLink);
-  // card.appendChild(calendar);
+  // card.appendChild(calendar); //testing
 
   if(data.bio !== null) {
     cardInfo.appendChild(bio);
@@ -131,7 +132,8 @@ const userCard = (data) => {
     cardInfo.appendChild(location);
   }
 
-  // new GitHubCalendar('.calendar', data.login);
+  // new GitHubCalendar('.calendar', data.login); //testing
+  console.log(card);
 
   return card;
 }
