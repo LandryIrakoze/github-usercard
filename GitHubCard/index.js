@@ -133,6 +133,8 @@ const userCard = (data) => {
   }
 
   // new GitHubCalendar('.calendar', data.login); //testing
+  console.log(card);
+
   return card;
 }
 const cards = document.querySelector('.cards');
