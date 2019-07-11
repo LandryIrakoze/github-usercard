@@ -56,6 +56,7 @@ axios.get('https://api.github.com/users/LandryIrakoze')
     console.log('Woops something is broken on our end, try again later', error)
   })
 
+//FETCH FOLLOWER INFO + CREATE CARD
 axios.get('https://api.github.com/users/LandryIrakoze/followers')
   .then(data => {
     const followerData = data.data;
@@ -100,10 +101,10 @@ const userCard = (data) => {
   img.src = `${data.avatar_url}`;
   profileLink.href = `https://github.com/${data.login}`;
 
-  name.textContent = `${data.login}`;
+  name.textContent = `${data.name}`;
   userName.textContent = `${data.login}`;
   location.textContent = `${data.location}`;
-  profile.textContent = 'Profile:';
+  profile.textContent = 'Profile: ';
   profileLink.textContent = `https://github.com/${data.login}`;
   followers.textContent = `Followers: ${data.followers}`;
   following.textContent = `Following: ${data.following}`;
