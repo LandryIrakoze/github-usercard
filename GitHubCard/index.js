@@ -10,22 +10,6 @@
    Skip to Step 3.
 */
 
-/* Step 4: Pass the data received from Github into your function, 
-           create a new component and add it to the DOM as a child of .cards
-*/
-
-/* Step 5: Now that you have your own card getting added to the DOM, either 
-          follow this link in your browser https://api.github.com/users/<Your github name>/followers 
-          , manually find some other users' github handles, or use the list found 
-          at the bottom of the page. Get at least 5 different Github usernames and add them as
-          Individual strings to the friendsArray below.
-          
-          Using that array, iterate over it, requesting data for each user, creating a new card for each
-          user, and adding that card to the DOM.
-*/
-
-const followersArray = [];
-
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
 
@@ -43,8 +27,119 @@ const followersArray = [];
     <p>Bio: {users bio}</p>
   </div>
 </div>
-
 */
+
+/* Step 4: Pass the data received from Github into your function, 
+           create a new component and add it to the DOM as a child of .cards
+*/
+
+/* Step 5: Now that you have your own card getting added to the DOM, either 
+          follow this link in your browser https://api.github.com/users/<Your github name>/followers 
+          , manually find some other users' github handles, or use the list found 
+          at the bottom of the page. Get at least 5 different Github usernames and add them as
+          Individual strings to the friendsArray below.
+          
+          Using that array, iterate over it, requesting data for each user, creating a new card for each
+          user, and adding that card to the DOM.
+*/
+
+
+/*   REFACTOR THIS USING CHAINED PROMISES  */
+//FETCH USER INFO + CREATE CARD
+axios.get('https://api.github.com/users/LandryIrakoze')
+  .then(data => {
+    const userInfo = data.data;
+    const element = userCard(userInfo);
+    cards.appendChild(element);
+  })
+  .catch(error => {
+    console.log('Woops something is broken on our end, try again later', error)
+  })
+
+//FETCH FOLLOWER INFO + CREATE CARD
+axios.get('https://api.github.com/users/LandryIrakoze/followers')
+  .then(data => {
+    const followerData = data.data;
+    const followerArray = followerData.map(user => user.login);
+
+    followerArray.forEach(user => {
+      axios.get(`https://api.github.com/users/${user}`)
+        .then(data => {
+          const userInfo = data.data;
+          const element = userCard(userInfo);
+          cards.appendChild(element);
+        })
+        .catch(error => {
+          console.log('Woops something is broken on our end, try again later', error)
+        })
+    })
+  })
+  .catch(error => {
+    console.log('Woops something is broken on our end, try again later', error)
+  })
+
+/*  ADD CALENDAR  */
+// CREATE CARD FUNCTION 
+const userCard = (data) => {
+  const card = document.createElement('div');
+  // const profileContainer = document.createElement('div'); //testing
+  const img = document.createElement('img');
+  const cardInfo = document.createElement('div');
+  const name = document.createElement('h3');
+  const userName = document.createElement('p');
+  const location = document.createElement('p');
+  const profile = document.createElement('p');
+  const profileLink = document.createElement('a');
+  const followers = document.createElement('p');
+  const following = document.createElement('p');
+  const bio = document.createElement('p');
+  // const calendar = document.createElement('div'); //testing
+
+  card.classList.add('card');
+  cardInfo.classList.add('card-info');
+  name.classList.add('name');
+  userName.classList.add('username');
+  // calendar.classList.add('calendar'); //testing
+
+  img.src = `${data.avatar_url}`;
+  profileLink.href = `https://github.com/${data.login}`;
+
+  name.textContent = `${data.name}`;
+  userName.textContent = `${data.login}`;
+  location.textContent = `${data.location}`;
+  profile.textContent = 'Profile: ';
+  profileLink.textContent = `https://github.com/${data.login}`;
+  followers.textContent = `Followers: ${data.followers}`;
+  following.textContent = `Following: ${data.following}`;
+  bio.textContent = `${data.bio}`;
+
+  card.appendChild(img);
+  card.appendChild(cardInfo);
+  cardInfo.appendChild(name);
+  cardInfo.appendChild(userName);
+  cardInfo.appendChild(profile);
+  cardInfo.appendChild(profileLink);
+  cardInfo.appendChild(followers);
+  cardInfo.appendChild(following);
+  profile.appendChild(profileLink);
+  // card.appendChild(calendar); //testing
+
+  if(data.bio !== null) {
+    cardInfo.appendChild(bio);
+  }
+
+  if(data.location !== null) {
+    cardInfo.appendChild(location);
+  }
+
+  // new GitHubCalendar('.calendar', data.login); //testing
+  console.log(card);
+
+  return card;
+}
+const cards = document.querySelector('.cards');
+
+
 
 /* List of LS Instructors Github username's: 
   tetondan
